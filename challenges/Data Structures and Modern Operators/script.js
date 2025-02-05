@@ -39,3 +39,37 @@ const game = {
     team2: 6.5,
   },
 };
+
+//* Solutions
+
+//! 1 
+const [players1, players2] = game.players;
+
+//! 2
+const [gk, ...fieldPlayers] = players1;
+
+//! 3
+const allPlayers = [...players1, ...players2];
+
+//! 4
+const players1Final = [...players1, 'Thiago', 'Coutinho', 'Perisic']
+
+//! 5
+const { odds: { team1, x: draw, team2 } } = game;
+
+//! 6
+const printGoals = function () {
+  for (let i = 0; i < arguments.length; i++) {
+    console.log(arguments[i]);
+  }
+
+  console.log(`${arguments.length} goals were scored`);
+}
+
+
+// //printGoals('Davies', 'Muller', 'Lewandowski', 'Kimmich');
+// //printGoals(...game.scored);
+
+//! 7
+team1 < team2 && console.log('team1 is more likely to win')
+team1 > team2 && console.log('team2 is more likely to win')
