@@ -79,7 +79,7 @@ const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 const displayMovements = (movements, sorted = false) => {
   containerMovements.innerHTML = '';
 
-  const movs = sorted ? movements.slice().sort((a, b) => a - b) : movements;
+  const movs = sorted ? movements.slice().sort((a, b) => Math.abs(a) - Math.abs(b)) : movements;
 
   movs.forEach((mov, i) => {
     const type = mov > 0 ? 'deposit' : 'withdrawal';
@@ -87,7 +87,7 @@ const displayMovements = (movements, sorted = false) => {
     const html = `
     <div class="movements__row">
           <div class="movements__type movements__type--${type}">${i + 1} ${type}</div>
-          <div class="movements__value">${mov} PKR</div>
+          <div class="movements__value">${Math.abs(mov).toFixed(2)} PKR</div>
         </div>
         `;
 
@@ -111,7 +111,7 @@ const hideCursor = function () {
 
 const calcDisplayBalance = (account) => {
   account.balance = account.movements.reduce((acc, mov) => acc + mov, 0)
-  labelBalance.textContent = `${account.balance} PKR`;
+  labelBalance.textContent = `${account.balance.toFixed(2)} PKR`;
 }
 
 const calcDisplaySummary = (account) => {
@@ -121,9 +121,9 @@ const calcDisplaySummary = (account) => {
 
   const interest = account.movements.filter(mov => mov > 0).map(deposit => deposit * account.interestRate / 100).filter(interest => interest >= 1).reduce((acc, interest) => interest + acc, 0);
 
-  labelSumIn.textContent = `${income} PKR`;
-  labelSumOut.textContent = `${Math.abs(out)} PKR`;
-  labelSumInterest.textContent = `${interest} PKR`;
+  labelSumIn.textContent = `${income.toFixed(2)} PKR`;
+  labelSumOut.textContent = `${Math.abs(out).toFixed(2)} PKR`;
+  labelSumInterest.textContent = `${interest.toFixed(2)} PKR`;
 }
 
 let currentUser;
@@ -133,7 +133,7 @@ btnLogin.addEventListener('click', e => {
   currentUser = accounts.find(acc => acc.username === inputLoginUsername.value);
 
 
-  if (currentUser?.pin === Number(inputLoginPin.value)) {
+  if (currentUser?.pin === (+inputLoginPin.value)) {
     console.log(`successfull log in`);
     labelWelcome.textContent = `Welcome back, ${currentUser.owner.split(' ')[0]}`
 
@@ -147,7 +147,7 @@ btnLogin.addEventListener('click', e => {
 btnTransfer.addEventListener('click', (e) => {
   e.preventDefault();
   const reciever = accounts.find(acc => acc.username === inputTransferTo.value);
-  const amount = Number(inputTransferAmount.value);
+  const amount = (+inputTransferAmount.value);
 
   if (amount > 0 && reciever !== currentUser && currentUser.balance >= amount && reciever) {
     currentUser.movements.push(-amount)
@@ -160,7 +160,7 @@ btnTransfer.addEventListener('click', (e) => {
 btnClose.addEventListener('click', (e) => {
   e.preventDefault();
 
-  if (inputCloseUsername.value === currentUser.username && Number(inputClosePin.value) === currentUser.pin) {
+  if (inputCloseUsername.value === currentUser.username && (+inputClosePin.value) === currentUser.pin) {
     accounts.splice(accounts.findIndex(acc => acc === currentUser), 1);
     containerApp.style.opacity = 0;
     hideCursor(inputCloseUsername, inputClosePin);
@@ -170,10 +170,10 @@ btnClose.addEventListener('click', (e) => {
 btnLoan.addEventListener('click', (e) => {
   e.preventDefault();
 
-  const amount = Number(inputLoanAmount.value);
+  const amount = (+inputLoanAmount.value);
 
   if (currentUser.movements.some((deposit) => amount < 0.1 * deposit) && amount > 0) {
-    currentUser.movements.push(amount);
+    currentUser.movements.push(Math.trunc(amount));
     updateUI(currentUser);
     hideCursor(inputLoanAmount);
   }
