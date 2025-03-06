@@ -119,7 +119,7 @@ const calcDate = (date, locale, options) => {
   return Intl.DateTimeFormat(locale, options).format(date);
 }
 
-const formatCur = (value, currency, locale) => Intl.NumberFormat(locale, { style: 'currency', currency }).format(value);
+const formatCur = (value, currency, locale) => Intl.NumberFormat(locale, { style: 'currency', currency }).format(Math.abs(value));
 
 const displayMovements = (account, sorted = false) => {
   containerMovements.innerHTML = '';
@@ -130,11 +130,12 @@ const displayMovements = (account, sorted = false) => {
   movs.forEach((mov, i) => {
     const formatedMov = formatCur(mov, account.currency, account.locale);
     const type = mov > 0 ? 'deposit' : 'withdrawal';
+    const formatedDate = calcDate(new Date(account.movementsDates[i]), account.locale, options);
 
     const html = `
     <div class="movements__row">
           <div class="movements__type movements__type--${type}">${i + 1} ${type}</div>
-          <div class="movements__date">${calcDate(new Date(account.movementsDates[i]), account.locale, options)}</div>
+          <div class="movements__date">${formatedDate}</div>
           <div class="movements__value">${formatedMov}</div>
         </div>
         `;
@@ -173,9 +174,13 @@ const calcDisplaySummary = (account) => {
 
   const interest = account.movements.filter(mov => mov > 0).map(deposit => deposit * account.interestRate / 100).filter(interest => interest >= 1).reduce((acc, interest) => interest + acc, 0);
 
-  labelSumIn.textContent = `${income.toFixed(2)} PKR`;
-  labelSumOut.textContent = `${Math.abs(out).toFixed(2)} PKR`;
-  labelSumInterest.textContent = `${interest.toFixed(2)} PKR`;
+  const formatedIncome = formatCur(income, account.currency, account.locale);
+  const formatedOut = formatCur(out, account.currency, account.locale);
+  const formatedInterest = formatCur(interest, account.currency, account.locale);
+
+  labelSumIn.textContent = `${formatedIncome}`;
+  labelSumOut.textContent = `${formatedOut}`;
+  labelSumInterest.textContent = `${formatedInterest}`;
 }
 
 let currentUser;
