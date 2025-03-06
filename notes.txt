@@ -1,4 +1,6 @@
-functions learnt : parseInt(), parseFloat(), isNaN(), isFinite(), isInteger(), Math.sqrt(), Math.max(), Math.min(), Math.random(), Math.trunc(), Math.round(), Math.ceil(), Math.floor(): all these Math ones do type coersion but not parsing,
+functions learnt : parseInt(), parseFloat(), isNaN(), isFinite(), isInteger(), Math.sqrt(), Math.max(), Math.min(), Math.random(), Math.trunc(), Math.round(), Math.ceil(), Math.floor(), toFixed()
+
+all these Math ones do type coersion but not parsing, floor can round -ve numbers while trunc can not 
 
 use of + '12' instead of Number('12')
 
