@@ -81,6 +81,10 @@ const displayMovements = (movements, sorted = false) => {
 
   const movs = sorted ? movements.slice().sort((a, b) => Math.abs(a) - Math.abs(b)) : movements;
 
+  const date = new Date();
+
+  labelDate.textContent = date.getDay().padStart(2, 0);
+
   movs.forEach((mov, i) => {
     const type = mov > 0 ? 'deposit' : 'withdrawal';
 
