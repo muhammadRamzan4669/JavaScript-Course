@@ -2,5 +2,9 @@ functions learnt : parseInt(), parseFloat(), isNaN(), isFinite(), isInteger(), M
 
 all these Math ones do type coersion but not parsing, floor can round -ve numbers while trunc can not, numeric seperators : can be used to easily recognize the large amount numbers like we use commas in real prices to identify the amount easily, 
 
+numbers are reperesented internally as 64 bits (64 1s or 0s), of these 64 only 53 are used to actualy store the digits rest used to store the sign and position of decimal point
+
+limit of how long a number can be : 2**53-1, stored in Number.MAX_SAFE_INTEGER 
+
 use of + '12' instead of Number('12')
 
