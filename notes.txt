@@ -4,7 +4,7 @@ all these Math ones do type coersion but not parsing, floor can round -ve number
 
 numbers are reperesented internally as 64 bits (64 1s or 0s), of these 64 only 53 are used to actualy store the digits rest used to store the sign and position of decimal point
 
-limit of how long a number can be : 2**53-1, stored in Number.MAX_SAFE_INTEGER 
+limit of how long a number can be : 2**53-1, stored in Number.MAX_SAFE_INTEGER, if we do calaculations on number larger than this range then we will lose precision
 
 use of + '12' instead of Number('12')
 
