@@ -1,4 +1,4 @@
-functions learnt : parseInt(), parseFloat(), isNaN(), isFinite(), isInteger(), Math.sqrt(), Math.max(), Math.min(), Math.random(), Math.trunc(), Math.round(), Math.ceil(), Math.floor(), toFixed()
+functions learnt : parseInt(), parseFloat(), isNaN(), isFinite(), isInteger(), Math.sqrt(), Math.max(), Math.min(), Math.random(), Math.trunc(), Math.round(), Math.ceil(), Math.floor(), toFixed(), BigInt()
 
 all these Math ones do type coersion but not parsing, floor can round -ve numbers while trunc can not, numeric seperators : can be used to easily recognize the large amount numbers like we use commas in real prices to identify the amount easily, 
 
@@ -7,6 +7,8 @@ numbers are reperesented internally as 64 bits (64 1s or 0s), of these 64 only 5
 limit of how long a number can be : 2**53-1, stored in Number.MAX_SAFE_INTEGER, if we do calaculations on number larger than this range then we will lose precision
 
 to solve this problem a new primitive is added in es 2020 known as BigInt, e.g: 13131312329858923592n, n at last represents BigInt
+
+
 
 use of + '12' instead of Number('12')
 
