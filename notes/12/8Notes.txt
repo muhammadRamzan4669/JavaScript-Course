@@ -1,0 +1,106 @@
+JavaScript Notes: Working with Dates and Times
+1. Creating Dates
+JavaScript’s Date object handles dates and times. There are 4 ways to create dates:
+
+Current Date/Time:
+
+const now = new Date(); // Creates a date object for the current moment
+console.log(now); // Example: "Sun Aug 02 2020 15:23:05 GMT+0200"
+Parse a Date String:
+
+const dateString = new Date("December 24, 2015");
+console.log(dateString); // "Thu Dec 24 2015 00:00:00 GMT+0100"
+⚠️ Warning: Parsing custom strings can be unreliable. Use standardized formats (e.g., "2023-07-25T12:30:00Z").
+
+Pass Year, Month, Day, etc.:
+
+const customDate = new Date(2037, 10, 19, 15, 23, 5); 
+// Year, Month (0-based), Day, Hour, Minute, Second
+console.log(customDate); // "Thu Nov 19 2037 15:23:05 GMT+0100"
+Months are 0-based: 10 = November.
+
+Autocorrect: Invalid dates (e.g., new Date(2023, 10, 31)) adjust automatically (e.g., December 1).
+
+Milliseconds Since Unix Time (Jan 1, 1970):
+
+const unixDate = new Date(0); // Jan 1, 1970
+const threeDaysLater = new Date(3 * 24 * 60 * 60 * 1000); // 3 days in milliseconds
+console.log(threeDaysLater); // "Jan 04 1970"
+2. Getting Date Components
+Use methods to extract parts of a date:
+
+const future = new Date(2037, 10, 19, 15, 23);
+
+console.log(future.getFullYear()); // 2037  
+console.log(future.getMonth());    // 10 (November)  
+console.log(future.getDate());     // 19 (day of the month)  
+console.log(future.getDay());      // 4 (Thursday, 0 = Sunday)  
+console.log(future.getHours());    // 15  
+console.log(future.getMinutes());  // 23  
+🔑 Key Notes:
+
+Use getFullYear(), not getYear() (deprecated).
+
+getDay() returns the day of the week (0 = Sunday).
+
+3. Formatting Dates
+ISO String (Standardized Format):
+
+console.log(future.toISOString()); // "2037-11-19T14:23:00.000Z"
+Useful for storing dates in databases or APIs.
+
+4. Timestamps
+Timestamp: Milliseconds since Jan 1, 1970 (Unix epoch).
+
+console.log(future.getTime()); // Returns timestamp (e.g., 2142253380000)
+Get Current Timestamp:
+
+console.log(Date.now()); // Timestamp for right now
+Convert Timestamp to Date:
+
+const timestamp = 2142253380000;
+const dateFromTimestamp = new Date(timestamp);
+console.log(dateFromTimestamp); // "Thu Nov 19 2037 15:23:00"
+5. Modifying Dates
+Use set methods to update date components:
+
+future.setFullYear(2040);
+console.log(future); // "Tue Nov 19 2040 15:23:00"
+Other methods: setMonth(), setDate(), setHours(), etc.
+
+Autocorrection works here too (e.g., future.setDate(35) adjusts to the next month).
+
+6. Use Cases
+Display Dates in Apps:
+
+const today = new Date();
+console.log(`Today is ${today.toDateString()}`); // "Today is Thu Jul 27 2023"
+Calculate Time Differences:
+
+const start = Date.now();
+// Perform an action...
+const end = Date.now();
+console.log(`Time taken: ${end - start} ms`);
+Store Dates in Databases: Use ISO strings for consistency.
+
+Key Takeaways
+Create dates with new Date(), strings, components, or timestamps.
+
+Months are 0-based (0 = January).
+
+Use toISOString() for standardized formatting.
+
+Timestamps (getTime() or Date.now()) are great for calculations.
+
+Autocorrection handles invalid dates gracefully.
+
+Example:
+
+// Create a date for Christmas 2023
+const christmas = new Date(2023, 11, 25); // December 25, 2023
+console.log(christmas.toISOString()); // "2023-12-25T00:00:00.000Z"
+
+// Add 7 days
+christmas.setDate(christmas.getDate() + 7);
+console.log(christmas.toDateString()); // "Mon Jan 01 2024"
+JavaScript dates are powerful once you understand the basics! 📅✨
