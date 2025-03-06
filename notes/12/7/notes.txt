@@ -17,8 +17,6 @@ Remaining bits store the decimal position and sign.
 
 Maximum safe integer:
 
-javascript
-Copy
 console.log(Number.MAX_SAFE_INTEGER); // 9007199254740991 (2^53 - 1)
 Numbers larger than this lose precision.
 
@@ -27,54 +25,36 @@ Example: Adding 1 to 9007199254740991 might give incorrect results.
 3. Creating BigInts
 Method 1: Append n to the end of a number:
 
-javascript
-Copy
 const hugeNumber = 123456789012345678901234567890n;
 Method 2: Use the BigInt() constructor:
 
-javascript
-Copy
 const hugeNumber = BigInt("123456789012345678901234567890");
 Warning: Use the constructor only for small numbers, as large numbers might lose precision before conversion.
 
 4. Operations with BigInt
 All basic math operations work (+, -, *, /, %):
 
-javascript
-Copy
 const result = 10000n + 5000n; // 15000n
 Division truncates decimals (like integer division):
 
-javascript
-Copy
 console.log(11n / 3n); // 3n (cuts off the decimal part)
 5. Important Rules
 Cannot mix BigInt with regular numbers:
 
-javascript
-Copy
 // Error: Cannot mix BigInt and other types
 const mixed = 100n + 50; // ❌
 Fix: Convert the regular number to BigInt first:
 
-javascript
-Copy
 const fixed = 100n + BigInt(50); // ✅ 150n
 Comparisons work with regular numbers:
 
-javascript
-Copy
 console.log(20n > 15); // true ✅
 Equality checks:
 
-javascript
-Copy
 console.log(20n == 20); // true ✅ (loose equality)  
 console.log(20n === 20); // false ❌ (strict equality; different types)
 Math functions (e.g., Math.sqrt()) don’t work:
 
-javascript
-Copy
 Math.sqrt(16n); // ❌ Error
 6. Use Cases for BigInt
 Handling large database IDs or unique identifiers.
@@ -94,8 +74,6 @@ Comparisons with regular numbers are allowed.
 
 Example:
 
-javascript
-Copy
 // Creating a BigInt
 const bigNumber = 123456789012345678901234567890n;
 
