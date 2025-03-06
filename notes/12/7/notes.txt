@@ -1,0 +1,114 @@
+JavaScript Notes: Understanding BigInt
+1. What is BigInt?
+BigInt is a special data type in JavaScript used to store very large integers (whole numbers).
+
+Introduced in 2020 (ES2020).
+
+Regular JavaScript numbers can’t safely represent integers larger than 2<sup>53</sup> - 1 (called Number.MAX_SAFE_INTEGER).
+
+BigInt solves this problem by allowing arbitrarily large integers.
+
+2. Why Do We Need BigInt?
+Regular numbers in JavaScript are stored as 64-bit values:
+
+53 bits store the actual digits.
+
+Remaining bits store the decimal position and sign.
+
+Maximum safe integer:
+
+javascript
+Copy
+console.log(Number.MAX_SAFE_INTEGER); // 9007199254740991 (2^53 - 1)
+Numbers larger than this lose precision.
+
+Example: Adding 1 to 9007199254740991 might give incorrect results.
+
+3. Creating BigInts
+Method 1: Append n to the end of a number:
+
+javascript
+Copy
+const hugeNumber = 123456789012345678901234567890n;
+Method 2: Use the BigInt() constructor:
+
+javascript
+Copy
+const hugeNumber = BigInt("123456789012345678901234567890");
+Warning: Use the constructor only for small numbers, as large numbers might lose precision before conversion.
+
+4. Operations with BigInt
+All basic math operations work (+, -, *, /, %):
+
+javascript
+Copy
+const result = 10000n + 5000n; // 15000n
+Division truncates decimals (like integer division):
+
+javascript
+Copy
+console.log(11n / 3n); // 3n (cuts off the decimal part)
+5. Important Rules
+Cannot mix BigInt with regular numbers:
+
+javascript
+Copy
+// Error: Cannot mix BigInt and other types
+const mixed = 100n + 50; // ❌
+Fix: Convert the regular number to BigInt first:
+
+javascript
+Copy
+const fixed = 100n + BigInt(50); // ✅ 150n
+Comparisons work with regular numbers:
+
+javascript
+Copy
+console.log(20n > 15); // true ✅
+Equality checks:
+
+javascript
+Copy
+console.log(20n == 20); // true ✅ (loose equality)  
+console.log(20n === 20); // false ❌ (strict equality; different types)
+Math functions (e.g., Math.sqrt()) don’t work:
+
+javascript
+Copy
+Math.sqrt(16n); // ❌ Error
+6. Use Cases for BigInt
+Handling large database IDs or unique identifiers.
+
+Working with numbers from APIs/languages that use 64-bit or larger integers.
+
+Scientific/computational tasks requiring extreme precision.
+
+7. Key Takeaways
+Use n or BigInt() to create BigInts.
+
+Never mix BigInt with regular numbers in calculations.
+
+BigInt division removes decimals.
+
+Comparisons with regular numbers are allowed.
+
+Example:
+
+javascript
+Copy
+// Creating a BigInt
+const bigNumber = 123456789012345678901234567890n;
+
+// Operations
+const sum = bigNumber + 1000n; // ✅
+const division = 15n / 2n; // 7n (no decimals)
+
+// Comparison
+console.log(1000n > 999); // true ✅
+When to Avoid:
+
+For most everyday calculations (regular numbers are faster).
+
+When working with decimals (use Number instead).
+
+BigInt gives JavaScript the power to handle massive integers accurately! 🔢✨

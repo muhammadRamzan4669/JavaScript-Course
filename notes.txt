@@ -6,9 +6,7 @@ numbers are reperesented internally as 64 bits (64 1s or 0s), of these 64 only 5
 
 limit of how long a number can be : 2**53-1, stored in Number.MAX_SAFE_INTEGER, if we do calaculations on number larger than this range then we will lose precision
 
-to solve this problem a new primitive is added in es 2020 known as BigInt, e.g: 13131312329858923592n, n at last represents BigInt
-
-
+to solve this problem a new primitive is added in es 2020 known as BigInt, e.g: 13131312329858923592n, n at last represents BigInt, can not add bigints to numbers e.g: 64 + 64n to make it work we use BigInt() e.g:BigInt(64) + 64n, Math operations can not work on BigInts,
 
 use of + '12' instead of Number('12')
 
