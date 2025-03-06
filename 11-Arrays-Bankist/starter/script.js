@@ -91,10 +91,10 @@ const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
 /////////////////////////////////////////////////
 
-const displayMovements = (movements, sorted = false) => {
+const displayMovements = (account, sorted = false) => {
   containerMovements.innerHTML = '';
 
-  const movs = sorted ? movements.slice().sort((a, b) => Math.abs(a) - Math.abs(b)) : movements;
+  const movs = sorted ? account.movements.slice().sort((a, b) => Math.abs(a) - Math.abs(b)) : movements;
 
   const now = new Date();
 
@@ -112,7 +112,7 @@ const displayMovements = (movements, sorted = false) => {
     const html = `
     <div class="movements__row">
           <div class="movements__type movements__type--${type}">${i + 1} ${type}</div>
-          <div class="movements__date"></div>
+          <div class="movements__date">${account.movementsDates[i]}</div>
           <div class="movements__value">${Math.abs(mov).toFixed(2)} PKR</div>
         </div>
         `;
