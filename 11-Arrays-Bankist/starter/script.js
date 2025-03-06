@@ -94,7 +94,7 @@ const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 const displayMovements = (account, sorted = false) => {
   containerMovements.innerHTML = '';
 
-  const movs = sorted ? account.movements.slice().sort((a, b) => Math.abs(a) - Math.abs(b)) : movements;
+  const movs = sorted ? account.movements.slice().sort((a, b) => Math.abs(a) - Math.abs(b)) : account.movements;
 
   const now = new Date();
 
@@ -109,10 +109,12 @@ const displayMovements = (account, sorted = false) => {
   movs.forEach((mov, i) => {
     const type = mov > 0 ? 'deposit' : 'withdrawal';
 
+    const movementDate = new Date(account.movementsDates[i]);
+
     const html = `
     <div class="movements__row">
           <div class="movements__type movements__type--${type}">${i + 1} ${type}</div>
-          <div class="movements__date">${account.movementsDates[i]}</div>
+          <div class="movements__date">${(movementDate.getDate() + '').padStart(2, 0)}/${(movementDate.getMonth() + 1 + '').padStart(2, 0)}/${movementDate.getFullYear()}</div>
           <div class="movements__value">${Math.abs(mov).toFixed(2)} PKR</div>
         </div>
         `;
@@ -124,7 +126,7 @@ const displayMovements = (account, sorted = false) => {
 const updateUI = (account) => {
   calcDisplayBalance(account);
   calcDisplaySummary(account);
-  displayMovements(account.movements);
+  displayMovements(account);
 }
 
 const hideCursor = function () {
@@ -133,7 +135,6 @@ const hideCursor = function () {
     elem.blur();
   }
 }
-
 
 const calcDisplayBalance = (account) => {
   account.balance = account.movements.reduce((acc, mov) => acc + mov, 0)
@@ -177,10 +178,13 @@ btnTransfer.addEventListener('click', (e) => {
 
   if (amount > 0 && reciever !== currentUser && currentUser.balance >= amount && reciever) {
     currentUser.movements.push(-amount)
+    currentUser.movementsDates.push(new Date().toISOString())
     reciever.movements.push(amount);
+    reciever.movementsDates.push(new Date().toISOString())
     updateUI(currentUser);
-    hideCursor(inputTransferAmount, inputTransferTo);
   }
+
+  hideCursor(inputTransferAmount, inputTransferTo);
 })
 
 btnClose.addEventListener('click', (e) => {
@@ -200,17 +204,18 @@ btnLoan.addEventListener('click', (e) => {
 
   if (currentUser.movements.some((deposit) => amount < 0.1 * deposit) && amount > 0) {
     currentUser.movements.push(Math.trunc(amount));
+    currentUser.movementsDates.push(new Date().toISOString());
     updateUI(currentUser);
-    hideCursor(inputLoanAmount);
   }
 
+  hideCursor(inputLoanAmount);
 })
 
 let sorted = false;
 
 btnSort.addEventListener('click', (e) => {
   e.preventDefault();
-  displayMovements(currentUser.movements, !sorted);
+  displayMovements(currentUser, !sorted);
   sorted = !sorted;
 });
 
