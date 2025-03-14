@@ -1,3 +1,4 @@
-functions learnt : parseInt(), parseFloat(), isNan(), isFinite()
+functions learnt : parseInt(), parseFloat(), isNaN(), isFinite(), isInteger()
 
 use of + '12' instead of Number('12')
+
