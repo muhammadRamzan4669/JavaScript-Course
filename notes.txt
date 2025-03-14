@@ -1,4 +1,4 @@
-functions learnt : parseInt(), parseFloat(), isNaN(), isFinite(), isInteger()
+functions learnt : parseInt(), parseFloat(), isNaN(), isFinite(), isInteger(), Math.sqrt(), Math.max() : do type coersion but not parsing, Math.min(), Math.random(), Math.trunc(), Math.round(), Math.ceil(), Math.floor(),
 
 use of + '12' instead of Number('12')
 
