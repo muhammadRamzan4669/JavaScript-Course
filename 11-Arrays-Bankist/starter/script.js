@@ -184,6 +184,13 @@ btnLogin.addEventListener('click', e => {
     containerApp.style.opacity = 100;
     hideCursor(inputLoginUsername, inputLoginPin);
     updateUI(currentUser);
+
+
+    labelDate.textContent = Intl.DateTimeFormat(currentUser.locale, {
+      ...options,
+      hour: 'numeric',
+      minute: 'numeric',
+    }).format(new Date()) + '';
   }
 
 })
@@ -240,11 +247,7 @@ const createUsernames = accounts => accounts.forEach(account => account.username
 
 createUsernames(accounts);
 
-labelDate.textContent = `${Intl.DateTimeFormat(currentUser.locale, {
-  ...options,
-  hour: 'numeric',
-  minute: 'numeric',
-}).format(new Date())}`
+
 
 
 
