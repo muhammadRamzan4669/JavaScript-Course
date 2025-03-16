@@ -119,20 +119,23 @@ const calcDate = (date, locale, options) => {
   return Intl.DateTimeFormat(locale, options).format(date);
 }
 
+const formatCur = (value, currency, locale) => Intl.NumberFormat(locale, { style: 'currency', currency }).format(value);
 
 const displayMovements = (account, sorted = false) => {
   containerMovements.innerHTML = '';
 
   const movs = sorted ? account.movements.slice().sort((a, b) => Math.abs(a) - Math.abs(b)) : account.movements;
 
+
   movs.forEach((mov, i) => {
+    const formatedMov = formatCur(mov, account.currency, account.locale);
     const type = mov > 0 ? 'deposit' : 'withdrawal';
 
     const html = `
     <div class="movements__row">
           <div class="movements__type movements__type--${type}">${i + 1} ${type}</div>
           <div class="movements__date">${calcDate(new Date(account.movementsDates[i]), account.locale, options)}</div>
-          <div class="movements__value">${Math.abs(mov).toFixed(2)} PKR</div>
+          <div class="movements__value">${formatedMov}</div>
         </div>
         `;
 
@@ -154,8 +157,13 @@ const hideCursor = function () {
 }
 
 const calcDisplayBalance = (account) => {
+
+
   account.balance = account.movements.reduce((acc, mov) => acc + mov, 0)
-  labelBalance.textContent = `${account.balance.toFixed(2)} PKR`;
+
+  const formatedBalance = formatCur(account.balance, account.currency, account.locale);
+
+  labelBalance.textContent = `${formatedBalance}`;
 }
 
 const calcDisplaySummary = (account) => {
