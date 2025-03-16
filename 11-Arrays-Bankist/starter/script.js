@@ -91,30 +91,47 @@ const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
 /////////////////////////////////////////////////
 
+
+const options = {
+  year: "numeric",
+  month: "numeric",
+  day: "numeric"
+}
+
+const calcDaysPassed = (date1, date2) => Math.floor(Math.abs(date1 - date2) / (1000 * 60 * 60 * 24));
+
+const calcDate = (date, locale, options) => {
+  const currentDate = new Date();
+
+  const daysPassedTillNow = calcDaysPassed(currentDate, date);
+
+  if (daysPassedTillNow === 0)
+    return 'Today';
+
+  if (daysPassedTillNow === 1)
+    return 'Yesterday';
+
+  if (daysPassedTillNow <= 5)
+    return `${daysPassedTillNow} days ago`
+
+  const now = new Date(date);
+
+  return Intl.DateTimeFormat(locale, options).format(date);
+}
+
+
 const displayMovements = (account, sorted = false) => {
   containerMovements.innerHTML = '';
 
   const movs = sorted ? account.movements.slice().sort((a, b) => Math.abs(a) - Math.abs(b)) : account.movements;
 
-  const now = new Date();
-
-  const day = (now.getDate() + '').padStart(2, 0);
-  const month = (now.getMonth() + '').padStart(2, 0);
-  const year = now.getFullYear();
-  const hours = ((now.getHours() + 2) + '').padStart(2, 0);
-  const minutes = (now.getMinutes() + '').padStart(2, 0);
-
-  labelDate.textContent = `${day}/${month}/${year},${hours}:${minutes}`;
-
   movs.forEach((mov, i) => {
     const type = mov > 0 ? 'deposit' : 'withdrawal';
-
-    const movementDate = new Date(account.movementsDates[i]);
 
     const html = `
     <div class="movements__row">
           <div class="movements__type movements__type--${type}">${i + 1} ${type}</div>
-          <div class="movements__date">${(movementDate.getDate() + '').padStart(2, 0)}/${(movementDate.getMonth() + 1 + '').padStart(2, 0)}/${movementDate.getFullYear()}</div>
+          <div class="movements__date">${calcDate(new Date(account.movementsDates[i]), account.locale, options)}</div>
           <div class="movements__value">${Math.abs(mov).toFixed(2)} PKR</div>
         </div>
         `;
@@ -223,7 +240,11 @@ const createUsernames = accounts => accounts.forEach(account => account.username
 
 createUsernames(accounts);
 
-
+labelDate.textContent = `${Intl.DateTimeFormat(currentUser.locale, {
+  ...options,
+  hour: 'numeric',
+  minute: 'numeric',
+}).format(new Date())}`
 
 
 

@@ -8,6 +8,8 @@
   margin: 0;
   padding: 0;
   box-sizing: inherit;
+  color: white;
+  background-color: black;
 }
 
 html {
@@ -17,8 +19,8 @@ html {
 
 body {
   font-family: "Poppins", sans-serif;
-  color: #444;
-  background-color: #f3f3f3;
+  /* color: #444;
+  background-color: #f3f3f3; */
   height: 100vh;
   padding: 2rem;
 }
