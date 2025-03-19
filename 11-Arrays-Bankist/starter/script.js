@@ -183,7 +183,39 @@ const calcDisplaySummary = (account) => {
   labelSumInterest.textContent = `${formatedInterest}`;
 }
 
-let currentUser;
+const logout = () => {
+  labelWelcome.textContent = `Log in to get started`;
+  containerApp.style.opacity = 0;
+}
+
+const resetLogoutTimer = () => {
+  clearInterval(timer);
+  startLogoutTimer();
+}
+
+const startLogoutTimer = () => {
+  let time = 300;
+
+  const tick = () => {
+    const min = ('' + Math.trunc(time / 60)).padStart(2, 0);
+    const sec = ('' + time % 60).padStart(2, 0);
+
+    labelTimer.textContent = `${min}:${sec}`;
+
+
+    if (time === 0) {
+      logout();
+      clearInterval(timer);
+    }
+
+    time--;
+  }
+
+  tick();
+  timer = setInterval(tick, 1000);
+}
+
+let currentUser, timer;
 
 btnLogin.addEventListener('click', e => {
   e.preventDefault();
@@ -191,7 +223,7 @@ btnLogin.addEventListener('click', e => {
 
 
   if (currentUser?.pin === (+inputLoginPin.value)) {
-    console.log(`successfull log in`);
+    console.log(`successfull log in `);
     labelWelcome.textContent = `Welcome back, ${currentUser.owner.split(' ')[0]}`
 
     containerApp.style.opacity = 100;
@@ -204,6 +236,11 @@ btnLogin.addEventListener('click', e => {
       hour: 'numeric',
       minute: 'numeric',
     }).format(new Date()) + '';
+
+    if (timer)
+      clearInterval(timer)
+
+    startLogoutTimer();
   }
 
 })
@@ -217,10 +254,11 @@ btnTransfer.addEventListener('click', (e) => {
     currentUser.movements.push(-amount)
     currentUser.movementsDates.push(new Date().toISOString())
     reciever.movements.push(amount);
-    reciever.movementsDates.push(new Date().toISOString())
+    reciever.movementsDates.push(new Date().toISOString());
     updateUI(currentUser);
   }
 
+  resetLogoutTimer();
   hideCursor(inputTransferAmount, inputTransferTo);
 })
 
@@ -242,9 +280,11 @@ btnLoan.addEventListener('click', (e) => {
   if (currentUser.movements.some((deposit) => amount < 0.1 * deposit) && amount > 0) {
     currentUser.movements.push(Math.trunc(amount));
     currentUser.movementsDates.push(new Date().toISOString());
-    updateUI(currentUser);
+
+    setTimeout(() => updateUI(currentUser), 5000);
   }
 
+  resetLogoutTimer();
   hideCursor(inputLoanAmount);
 })
 
@@ -254,6 +294,7 @@ btnSort.addEventListener('click', (e) => {
   e.preventDefault();
   displayMovements(currentUser, !sorted);
   sorted = !sorted;
+  resetLogoutTimer();
 });
 
 const createUsernames = accounts => accounts.forEach(account => account.username = account.owner.toLowerCase().split(' ').map(name => name[0]).join(''))
