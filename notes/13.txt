@@ -1,0 +1,178 @@
+What is the DOM?
+
+The DOM (Document Object Model) is a bridge between JavaScript and the browser.
+
+It lets JavaScript interact with HTML elements (create, delete, style, respond to events).
+
+The DOM turns an HTML document into a tree of nodes (like a family tree).
+
+DOM Tree Structure
+
+Everything in HTML (elements, text, comments) becomes a node in the DOM tree.
+
+Types of nodes:
+
+Element Node: Represents HTML tags (e.g., <div>, <button>).
+
+Text Node: Text inside elements.
+
+Comment Node: HTML comments (<!-- comment -->).
+
+Document Node: The entire HTML document (accessed with document).
+
+How Nodes Work
+
+Each node is a JavaScript object with properties/methods.
+
+Example methods:
+
+querySelector() (find elements).
+
+addEventListener() (listen for clicks, etc.).
+
+Example properties:
+
+innerHTML (change content).
+
+classList (add/remove classes).
+
+Inheritance in the DOM
+
+Nodes inherit properties/methods from parent types:
+
+EventTarget ➔ Node ➔ Element ➔ HTML Elements (e.g., HTMLButtonElement).
+
+Why inheritance matters:
+
+All elements can use addEventListener() (inherited from EventTarget).
+
+All nodes have textContent (inherited from Node).
+
+Example: A <button> inherits from Element (so it has classList) and Node (so it has textContent).
+
+Key Node Types
+
+EventTarget: Allows nodes to handle events (e.g., addEventListener()).
+
+Node: Basic properties like parentNode, childNodes.
+
+Element: HTML elements with innerHTML, querySelector(), etc.
+
+HTML Elements: Specialized types (e.g., HTMLImageElement has src property).
+
+Important Notes
+
+document: A special node to access the whole page (e.g., document.querySelector()).
+
+Window: Not part of the DOM, but can use addEventListener() (inherits from EventTarget).
+
+You don’t create nodes manually—they’re made automatically from HTML.
+
+Why This Matters
+
+Lets you dynamically update webpages (e.g., change text, add animations).
+
+All elements share common methods (like addEventListener()) but also have unique features (e.g., images have src).
+
+Example:
+
+
+// Change button text  
+const btn = document.querySelector("button");  
+btn.textContent = "Click Me!";  
+Key Terms:
+
+DOM Tree: Structure of nodes from HTML.
+
+Inheritance: Child nodes get features from parent types.
+
+API: Tools/functions to interact with the DOM.
+
+1. Selecting Elements
+document.documentElement: Selects the entire HTML document.
+
+document.head / document.body: Selects the <head> or <body> directly.
+
+querySelector(): Selects the first matching element (e.g., document.querySelector('.class')).
+
+querySelectorAll(): Returns a NodeList of all matching elements (not live—doesn’t update if DOM changes).
+
+getElementById(): Selects by ID (no # needed).
+
+
+document.getElementById('section-1');  
+getElementsByTagName(): Returns a live HTMLCollection of elements by tag name (e.g., button).
+
+
+document.getElementsByTagName('button'); // Updates if DOM changes  
+getElementsByClassName(): Returns a live HTMLCollection by class name (no . needed).
+
+2. Creating Elements
+document.createElement(): Creates a new element (not yet in the DOM).
+
+
+const message = document.createElement('div');  
+Add content/classes:
+
+
+message.textContent = 'We use cookies!';  
+message.classList.add('cookie-message');  
+message.innerHTML = 'We use cookies! <button class="btn">OK</button>';  
+3. Inserting Elements
+prepend(): Inserts as the first child of an element.
+
+append(): Inserts as the last child of an element.
+
+
+header.prepend(message); // First child  
+header.append(message);  // Last child  
+before() / after(): Insert as a sibling (before/after an element).
+
+
+header.before(message); // Before header  
+header.after(message);  // After header  
+cloneNode(true): Copy an element (use true to copy all child elements).
+
+
+const messageCopy = message.cloneNode(true);  
+4. Deleting Elements
+remove(): Deletes an element directly.
+
+
+message.remove();  
+Old method (removeChild):
+
+
+message.parentElement.removeChild(message); // Select parent first  
+Key Differences
+NodeList vs. HTMLCollection:
+
+NodeList (from querySelectorAll) is static (doesn’t update).
+
+HTMLCollection (from getElementsByTagName/ClassName) is live (updates automatically).
+
+Example: Cookie Message
+Create the element:
+
+
+const message = document.createElement('div');  
+message.classList.add('cookie-message');  
+message.innerHTML = 'We use cookies! <button class="btn">OK</button>';  
+Insert into DOM:
+
+
+document.body.append(message);  
+Delete on button click:
+
+
+document.querySelector('.btn').addEventListener('click', () => {  
+  message.remove();  
+});  
+Remember:
+
+Use querySelector and querySelectorAll for most tasks.
+
+cloneNode() to copy elements.
+
+Live collections (HTMLCollection) update automatically; NodeLists do not.
+
