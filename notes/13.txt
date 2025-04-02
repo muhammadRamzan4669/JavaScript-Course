@@ -176,3 +176,50 @@ cloneNode() to copy elements.
 
 Live collections (HTMLCollection) update automatically; NodeLists do not.
 
+
+
+# lec 10
+
+JavaScript Event Propagation: Capturing, Target, and Bubbling Phases
+Overview
+Event Propagation: When an event (e.g., a click) occurs on an element, it moves through the DOM tree in three distinct phases:
+Capturing Phase
+Target Phase
+Bubbling Phase
+Phases Explained
+Capturing Phase
+What Happens: The event begins at the document root and travels down to the target element.
+Path: Passes through all ancestor (parent) elements of the target (e.g., html → body → section → p → a for a click on an anchor <a>).
+Note: Does not involve sibling elements, only direct ancestors.
+Target Phase
+What Happens: The event reaches the target element—the element where the event originally occurred (e.g., the clicked <a>).
+Event Handling: Event listeners attached to the target can respond here.
+Bubbling Phase
+What Happens: The event travels back up from the target to the document root.
+Path: Passes through all ancestor elements again (e.g., a → p → section → body → html).
+Key Feature: As it bubbles, the event can be handled on any ancestor as if it occurred there.
+Event Listeners
+Default Behavior: Event listeners handle events during the target and bubbling phases.
+Capturing Option: Listeners can be set to trigger during the capturing phase (e.g., using addEventListener(event, handler, true) where true enables capturing).
+Syntax Example:
+javascript
+
+Collapse
+
+Wrap
+
+Copy
+element.addEventListener('click', () => alert('Clicked!'), false); // Bubbling (default)
+element.addEventListener('click', () => alert('Capturing!'), true); // Capturing
+Important Details
+Event Path: Only involves ancestors, not siblings.
+Non-Bubbling Events: Not all events bubble (e.g., focus doesn’t, but focusin does). Some are target-only.
+Propagation: A general term for the capturing and bubbling process—events "propagate" through the DOM.
+Why It Matters
+Powerful Patterns: During bubbling, an event can be handled on parent elements, enabling techniques like event delegation (handling events on multiple children via a single listener on a parent).
+Example: A click on <a> can trigger a listener on <section>, as if the <section> was clicked.
+Practical Use: Simplifies event management in complex DOM structures.
+Key Takeaways
+Sequence: Capturing (down) → Target (at element) → Bubbling (up).
+Flexibility: Listeners can target any phase, though bubbling is default.
+Efficiency: Bubbling allows centralized event handling on ancestors.
